@@ -1,12 +1,37 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { Toaster } from 'react-hot-toast'
+
+import LandingPage from './pages/LandingPage'
+import Dashboard from './pages/Home/Dashboard'
+import InterviewPrep from './pages/InterviewPrep/InterviewPrep'
+import UserContextProvider from './context/userContext'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-   <div>App</div>
+   <div>
+    <Router>
+      <Routes>
+        {/* Default Routes */}
+        <Route path="/" element={<LandingPage/>}/>
+
+
+        <Route path="/dashboard" element={<Dashboard/>}/>
+        <Route path="/interview-prep/:sessionId" element={<InterviewPrep/>}/>
+      </Routes>
+    </Router>
+
+    <Toaster
+      toastOptions={{
+        className: "",
+        style: {
+          fontSize: "13px",
+        },
+      }}
+    />
+   </div>
   )
 }
 

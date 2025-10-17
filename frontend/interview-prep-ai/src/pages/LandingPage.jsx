@@ -5,12 +5,15 @@ import HERO_IMG from '../assets/hero-image.png'
 import { APP_FEATURES } from '../utils/data'
 import { LuSparkles } from 'react-icons/lu'
 // import AuthModal from './AuthModal' // Assuming you have an AuthModal component
+import Modal from '../components/Modal'
+import Login from './Auth/Login'
+import SignUp from './Auth/SignUp'
 
 const LandingPage = () => {
   const navigate = useNavigate()
 
   const [openAuthModal, setOpenAuthModal] = React.useState(false)
-  // Removed unused state: const [currentPage, setCurrentPage] = React.useState("login");
+  const [currentPage, setCurrentPage] = React.useState("login");
 
   const handleCTA = () => {
     // navigate to dashboard for now
@@ -138,6 +141,26 @@ const LandingPage = () => {
       <div className='text-sm bg-gray-50 text-secondary text-center p-5 mt-5'>
         Made with ❤️... Happy Coding!
       </div>
+
+      <Modal
+        isOpen={openAuthModal}
+        onClose={() => {
+          setOpenAuthModal(false);
+          setCurrentPage("login");
+        }}
+        hideHeader
+      >
+        {/* Modal content goes here */}
+        <div>
+          {currentPage === "login" && (
+            <Login setCurrentPage={setCurrentPage} />
+          )}
+          {currentPage === "signup" && (
+            <SignUp setCurrentPage={setCurrentPage} />
+          )}
+        </div>
+
+      </Modal>
     </>
   )
 }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Input from '../../components/Inputs/Inputs' 
+import { validateEmail } from '../../utils/helper'
 
 const Login = ({ setCurrentPage }) => {
   const [email, setEmail] = useState('')
@@ -12,26 +13,26 @@ const Login = ({ setCurrentPage }) => {
   // Handle login form submission
   const handleLogin = async (e) => {
     e.preventDefault()
-    setError(null)
-    setLoading(true)
+    
+    if(!validateEmail(email)) {
+      setError('Please enter a valid email address.')
+      return
+    }
+    if (!password || password.length < 8) {
+      setError('Please enter the password')
+      return
+    }
+    setError("")
 
-    // TODO: Add actual login API call logic here
+    // Login API Call
     try {
-      // Example: const response = await loginApi(email, password);
-      // Example success: navigate('/dashboard');
-      
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 1500)); 
-      
-      // Navigate on success (placeholder logic)
-      navigate('/dashboard'); 
 
     } catch (err) {
-      // Example error handling
-      setError("Login failed. Check your email and password.")
-      console.error(err)
-    } finally {
-      setLoading(false)
+      if(err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message)
+      } else {
+        setError('An error occurred during login. Please try again.')
+      }
     }
   }
 
